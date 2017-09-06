@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'ThingsController', :type => :request do
+  
+  before(:each) do
+    @thing = ThingFactory.new.()
+  end
+
   it 'creates Thing' do
     expected = {
       title: 'Title',
@@ -20,10 +25,9 @@ RSpec.describe 'ThingsController', :type => :request do
   end
   
   it 'finds Thing by id' do
-    thing = ThingFactory.new.()
-    get "/things/#{thing.id}"
+    get "/things/#{@thing.id}"
     actual = JSON.parse(response.body)
-    expect(actual['id']).to eq(thing.id)
+    expect(actual['id']).to eq(@thing.id)
   end
   
   it 'returns 404 for invalid Thind id' do
@@ -33,8 +37,7 @@ RSpec.describe 'ThingsController', :type => :request do
   end
 
   it 'updates Thing by id' do
-    thing = ThingFactory.new.()
-    put "/things/#{thing.id}", params: {
+    put "/things/#{@thing.id}", params: {
       thing: { title: 'Changed' }
     }
     actual = JSON.parse(response.body)
@@ -42,8 +45,7 @@ RSpec.describe 'ThingsController', :type => :request do
   end
 
   it 'fails to update Thing with invalid data' do
-    thing = ThingFactory.new.()
-    put "/things/#{thing.id}", params: {
+    put "/things/#{@thing.id}", params: {
       thing: { title: '' }
     }
     actual = JSON.parse(response.body)
@@ -51,8 +53,7 @@ RSpec.describe 'ThingsController', :type => :request do
   end
 
   it 'deletes Thing by id' do
-    thing = ThingFactory.new.()
-    delete "/things/#{thing.id}"
+    delete "/things/#{@thing.id}"
     expect(response.status).to be(200)
   end
 
