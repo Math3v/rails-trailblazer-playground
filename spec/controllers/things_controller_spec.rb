@@ -41,6 +41,15 @@ RSpec.describe 'ThingsController', :type => :request do
     expect(actual['title']).to eq('Changed')
   end
 
+  it 'fails to update Thing with invalid data' do
+    thing = ThingFactory.new.()
+    put "/things/#{thing.id}", params: {
+      thing: { title: '' }
+    }
+    actual = JSON.parse(response.body)
+    expect(actual['errors']['errors'].inspect).to eq('{"title"=>["must be filled"]}')
+  end
+
   it 'deletes Thing by id' do
     thing = ThingFactory.new.()
     delete "/things/#{thing.id}"
