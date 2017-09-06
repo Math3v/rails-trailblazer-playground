@@ -31,4 +31,13 @@ RSpec.describe 'ThingsController', :type => :request do
     actual = JSON.parse(response.body)
     expect(actual['error']).to eq('Not found')
   end
+
+  it 'updates Thing by id' do
+    thing = ThingFactory.new.()
+    put "/things/#{thing.id}", params: {
+      thing: { title: 'Changed' }
+    }
+    actual = JSON.parse(response.body)
+    expect(actual['title']).to eq('Changed')
+  end
 end

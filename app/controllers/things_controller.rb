@@ -14,4 +14,12 @@ class ThingsController < ApplicationController
 
     not_found
   end
+
+  def update
+    run Thing::Update do |result|
+      return render json: @model
+    end
+
+    render json: @form
+  end
 end
