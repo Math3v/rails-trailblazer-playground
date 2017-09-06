@@ -22,4 +22,12 @@ class ThingsController < ApplicationController
 
     render json: @form
   end
+
+  def destroy
+    run Thing::Delete do |result|
+      return head :ok
+    end
+
+    not_found
+  end
 end

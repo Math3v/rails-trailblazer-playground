@@ -40,4 +40,16 @@ RSpec.describe 'ThingsController', :type => :request do
     actual = JSON.parse(response.body)
     expect(actual['title']).to eq('Changed')
   end
+
+  it 'deletes Thing by id' do
+    thing = ThingFactory.new.()
+    delete "/things/#{thing.id}"
+    expect(response.status).to be(200)
+  end
+
+  it 'fails to delete Thing by invalid id' do
+    delete '/things/320'
+    actual = JSON.parse(response.body)
+    expect(actual['error']).to eq('Not found')
+  end
 end
