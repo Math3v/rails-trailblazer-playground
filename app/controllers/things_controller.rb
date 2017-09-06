@@ -6,4 +6,12 @@ class ThingsController < ApplicationController
     
     render json: @form
   end
+
+  def show
+    run Thing::Show do |result|
+      return render json: @model
+    end
+
+    not_found
+  end
 end

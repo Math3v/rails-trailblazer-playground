@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  post '/things', to: 'things#create'
+  resources :things, only: [:create, :show]
 end

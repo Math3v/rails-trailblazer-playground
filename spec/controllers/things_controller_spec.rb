@@ -18,4 +18,17 @@ RSpec.describe 'ThingsController', :type => :request do
     actual = JSON.parse(response.body)
     expect(actual['errors']['errors'].inspect).to eq('{"title"=>["must be filled"]}')
   end
+  
+  it 'finds Thing by id' do
+    thing = ThingFactory.new.()
+    get "/things/#{thing.id}"
+    actual = JSON.parse(response.body)
+    expect(actual['id']).to eq(thing.id)
+  end
+  
+  it 'returns 404 for invalid Thind id' do
+    get "/things/320"
+    actual = JSON.parse(response.body)
+    expect(actual['error']).to eq('Not found')
+  end
 end
