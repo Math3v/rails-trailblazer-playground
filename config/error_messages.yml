@@ -1,0 +1,3 @@
+en:
+  errors:
+    thing_exists?: "Thing does not exist"
